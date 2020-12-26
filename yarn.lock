@@ -6478,6 +6478,13 @@ react-native-ratings@^7.3.0:
     lodash "^4.17.15"
     prop-types "^15.7.2"
 
+react-native-reanimated@~1.13.0:
+  version "1.13.2"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/react-native-reanimated/-/react-native-reanimated-1.13.2.tgz#1ae5457b24b4913d173a5a064bb28eae7783d293"
+  integrity sha1-GuVFeyS0kT0XOloGS7KOrneD0pM=
+  dependencies:
+    fbjs "^1.0.0"
+
 react-native-safe-area-context@3.1.9, react-native-safe-area-context@^3.1.9:
   version "3.1.9"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/react-native-safe-area-context/-/react-native-safe-area-context-3.1.9.tgz#48864ea976b0fa57142a2cc523e1fd3314e7247e"
@@ -6492,6 +6499,11 @@ react-native-size-matters@^0.3.1:
   version "0.3.1"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha1-JNDPwzWixzD21YvXtD6lpBvktJ8=
+
+react-native-tab-view@^2.15.2:
+  version "2.15.2"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/react-native-tab-view/-/react-native-tab-view-2.15.2.tgz#4bc7832d33a119306614efee667509672a7ee64e"
+  integrity sha1-S8eDLTOhGTBmFO/uZnUJZyp+5k4=
 
 react-native-web@~0.13.12:
   version "0.13.18"

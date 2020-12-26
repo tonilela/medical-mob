@@ -16,11 +16,16 @@ export default {
               Profile: 'profile',
             },
           },
-          TabTwo: {
+          Chart: {
             screens: {
-              TabTwoScreen: 'two',
+              Chart: 'chart',
             },
           },
+          // TabTwo: {
+          //   screens: {
+          //     TabTwoScreen: 'two',
+          //   },
+          // },
         },
       },
       NotFound: '*',

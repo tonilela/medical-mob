@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import { Text, View } from '../components/Themed';
 
-const Table = ({charts}) => {
+const Table = ({charts, handlePress}) => {
   if(_.isEmpty(charts)) {
     return (
       <View>
@@ -16,7 +16,6 @@ const Table = ({charts}) => {
 
   return (
     <DataTable>
-      {console.log('charts-----',charts)}
       <DataTable.Header>
         <DataTable.Title>ID</DataTable.Title>
         <DataTable.Title >Info</DataTable.Title>
@@ -24,14 +23,12 @@ const Table = ({charts}) => {
         <DataTable.Title >Zatvoren</DataTable.Title>
       </DataTable.Header>
       {charts.charts.map(chart => {
-        const {id, info, created_at, closed_at } = chart
-        console.log('jdenina',id, info, created_at, closed_at )
-        // console.log(_.get(chart, 'id'))
-        // console.log(_.get(chart, 'info'))
-        // console.log(_.get(chart, 'created_at'))
-        // console.log(_.get(chart, 'closed_at'))
+        const {id, info, created_at, closed_at, patient_id } = chart
+        console.log('tuuuuuuuuuuuuu')
         return(
-          <DataTable.Row key={id}>
+          <DataTable.Row key={id} onPress={()=>{ 
+            console.log('ide-----',id, patient_id)
+            handlePress(id, patient_id)}}>
             <DataTable.Cell>{id}</DataTable.Cell>
             <DataTable.Cell >{info}</DataTable.Cell>
             <DataTable.Cell >{moment(created_at).format('YYYY-MM-DD')}</DataTable.Cell>

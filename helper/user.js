@@ -45,31 +45,69 @@ async function getUserByOIB (oib) {
   }
 }
 
-// async function getAllUserData (id) {
-//     console.log('getAllUserData======',id)
-//     try {
-//       const {data: chart} = await axios.get(`http://${ipAddress}:3003/user/${id}/chart`,{
-//         headers: {
-//           Authorization: token,
-//         },
-//       })
+async function getAllUserData (id, patient_id) {
+    console.log('getAllUserData======',id, patient_id)
+    try {
+      const {data: chart} = await axios.get(`http://${ipAddress}:3003/user/${patient_id}/chart/${id}`,{
+        headers: {
+          Authorization: token,
+        },
+      })
+
       
-//     //   const {data: user} = await axios.get(`http://${ipAddress}:3003/user/${id}`,{
-//     //     headers: {
-//     //       Authorization: token,
-//     //     },
-//     //   })
-//     //   console.log('users',user)
-//       console.log('chartsss',chart)
-//     // return {user, chart}
-//   } catch (err) {
-//     console.log('errr',err)
-//     return false
-//   }
-// }
+    return chart
+  } catch (err) {
+    console.log('errr',err)
+    return false
+  }
+}
+async function getAllStaticData (id, patient_id) {
+    console.log('getAllUserData======',id, patient_id)
+    try {
+      const {data: diseases} = await axios.get(`http://${ipAddress}:3003/disease`,{
+        headers: {
+          Authorization: token,
+        },
+        params: { page: 0, rowsPerPage: 1000 }
+      })
+
+      const {data: medicaments} = await axios.get(`http://${ipAddress}:3003/medicament`,{
+        headers: {
+          Authorization: token,
+        },
+        params: { page: 0, rowsPerPage: 1000 }
+      })
+
+      const {data: users} = await axios.get(`http://${ipAddress}:3003/user`,{
+        headers: {
+          Authorization: token,
+        },
+        params: { page: 0, rowsPerPage: 1000 }
+      })
+
+      const {data: pdf} = await axios.get(`http://${ipAddress}:3003/user/${patient_id}/chart/${id}/pdf`,{
+        headers: {
+          Authorization: token,
+        },
+        params: { page: 0, rowsPerPage: 1000 }
+      })
+
+      // const {data: temperature} = await axios.get(`http://${ipAddress}:3003/user/${patient_id}/chart/${id}/temperature`,{
+      //   headers: {
+      //     Authorization: token,
+      //   },
+      // })
+
+    return {users, diseases, medicaments, pdf}
+  } catch (err) {
+    console.log('errr',err)
+    return false
+  }
+}
 
 module.exports = {
   getUser,
   getUserByOIB,
-  // getAllUserData
+  getAllUserData,
+  getAllStaticData,
 }

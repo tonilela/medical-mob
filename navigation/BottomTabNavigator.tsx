@@ -6,8 +6,9 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList, ProfileParamList } from '../types';
+import Profile from '../screens/Profile';
+import Chart from '../screens/Chart';
+import { BottomTabParamList, TabOneParamList, ProfileParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -56,26 +57,31 @@ function TabOneNavigator() {
       />
       <TabOneStack.Screen
         name="Profile"
-        component={TabTwoScreen}
+        component={Profile}
         options={{ headerTitle: 'Profile title' }}
+      />
+      <TabOneStack.Screen
+        name="Chart"
+        component={Chart}
+        options={{ headerTitle: 'Chart title' }}
       />
     </TabOneStack.Navigator>
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const ProfileStack = createStackNavigator<ProfileParamList>();
 
-function TabTwoNavigator() {
-  return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
-      />
-    </TabTwoStack.Navigator>
-  );
-}
+// function ProfileNavigator() {
+//   return (
+//     <ProfileStack.Navigator>
+//       <ProfileStack.Screen
+//         name="Profile"
+//         component={Profile}
+//         options={{ headerTitle: 'Tab Two Title' }}
+//       />
+//     </ProfileStack.Navigator>
+//   );
+// }
 // const ProfileStack = createStackNavigator<ProfileParamList>();
 
 // function ProfileNavigator() {
