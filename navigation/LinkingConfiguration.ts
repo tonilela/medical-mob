@@ -11,6 +11,11 @@ export default {
               TabOneScreen: 'one',
             },
           },
+          Profile: {
+            screens: {
+              Profile: 'profile',
+            },
+          },
           TabTwo: {
             screens: {
               TabTwoScreen: 'two',

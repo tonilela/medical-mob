@@ -6,40 +6,46 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { getUserByOIB } from "../helper/user";
 
-const TabOneScreen:FunctionComponent  = () => {
-  const [user, setUser] = useState({})
+const TabOneScreen:FunctionComponent  = (props) => {
+  // const [user, setUser] = useState({})
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false)
   const [oib, setOib] = useState('')
 
   // useEffect(() => {
-  //   async function getUsers1 () {
-  //     let response = await getUser(1)
-  //     console.log('usersss',response)
-  //   }
+  //   // async function getUsers1 () {
+  //   //   let response = await getUser(1)
+  //   //   console.log('usersss',response)
+  //   // }
     
-  //   getUsers1()
+  //   // getUsers1()
+  //   console.log(props)
   // }, []);
 
   const handleWriteIdButton = () => {
     setModalVisible(true)
-    console.log('tu smooo')
   }
 
   const handlePretraziKorisnika = async () => {
     console.log('pretraziii', oib)
-    const user = await getUserByOIB(oib)
-    if(_.isEmpty(user)){
+    const data = await getUserByOIB(oib)
+    if(_.isEmpty(data)){
       setErrorMsg(true)
     } else {
-      setUser(user)
+      // setUser(data)
+      setModalVisible(false)
+      setOib('')
+      const navigation = _.get(props, 'navigation')
+      navigation.navigate('Profile', {
+        data: data
+      })
     }
   }
 
   const handleCloseModal = () => {
     setModalVisible(!modalVisible);
     setErrorMsg(false)
-    setUser({})
+    // setUser({})
     setOib('')
   }
 

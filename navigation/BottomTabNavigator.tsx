@@ -7,7 +7,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { BottomTabParamList, TabOneParamList, TabTwoParamList, ProfileParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -19,19 +19,19 @@ export default function BottomTabNavigator() {
       initialRouteName="TabOne"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
-        name="TabOne"
+        name="Home"
         component={TabOneNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="TabTwo"
         component={TabTwoNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
-      />
+      /> */}
     </BottomTab.Navigator>
   );
 }
@@ -44,7 +44,7 @@ function TabBarIcon(props: { name: string; color: string }) {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const TabOneStack = createStackNavigator<any>();
 
 function TabOneNavigator() {
   return (
@@ -53,6 +53,11 @@ function TabOneNavigator() {
         name="TabOneScreen"
         component={TabOneScreen}
         options={{ headerTitle: 'Tab One Title' }}
+      />
+      <TabOneStack.Screen
+        name="Profile"
+        component={TabTwoScreen}
+        options={{ headerTitle: 'Profile title' }}
       />
     </TabOneStack.Navigator>
   );
@@ -71,3 +76,16 @@ function TabTwoNavigator() {
     </TabTwoStack.Navigator>
   );
 }
+// const ProfileStack = createStackNavigator<ProfileParamList>();
+
+// function ProfileNavigator() {
+//   return (
+//     <ProfileStack.Navigator>
+//       <ProfileStack.Screen
+//         name="Profile"
+//         component={TabTwoScreen}
+//         options={{ headerTitle: 'Profile title' }}
+//       />
+//     </ProfileStack.Navigator>
+//   );
+// }
