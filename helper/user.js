@@ -2,7 +2,7 @@ const axios = require('axios')
 const _ = require('lodash')
 
 const ipAddress = '192.168.43.142'
-const token = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjA3MDEwNjkxfQ.-rud8QxxOyKDvjN2BXVQ4O86dSsDZOq369n3-pwuVoM`
+const token = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjA5MDU5MTg2fQ.W0L5aLNONBRZtmMPOE5rrAyOmquAbtfn1c8oEC59cJ4`
 
 async function getUser (userId) {
     console.log('usli smo tuuu')
@@ -105,9 +105,27 @@ async function getAllStaticData (id, patient_id) {
   }
 }
 
+async function createNewChartInfo (userId, chartId, data) {
+  const { disease, medicaments, info, temperature} = data
+  try {
+    await axios.post(`http://${ipAddress}:3003/user/${userId}/chart/${chartId}`, data, {
+        headers: {
+          Authorization: token,
+        },
+      },
+    )
+
+    return
+  } catch (err) {
+    console.log('errr',err)
+    return false
+  }
+}
+
 module.exports = {
   getUser,
   getUserByOIB,
   getAllUserData,
   getAllStaticData,
+  createNewChartInfo,
 }

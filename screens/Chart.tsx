@@ -3,7 +3,6 @@ import { Alert, Modal, StyleSheet, Dimensions, TouchableHighlight, Button, TextI
 import _ from 'lodash'
 import { TabView, SceneMap } from 'react-native-tab-view';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import Vizita from '../components/Vizita';
 import { Text, View } from '../components/Themed';
 import { getAllUserData, getAllStaticData } from "../helper/user";
@@ -51,13 +50,12 @@ export default function Profile(props) {
     }
 
     const {id, patient_id} = _.get(props, 'route.params')
-    console.log('chart componetna',id)
     getAllData(id, patient_id)
     getStaticData(id, patient_id)
     setLoading(false)
   }, []);
 
-  console.log('all dataaaaa----', users, chartInfo, diseases, pdfs, medicaments)
+  // console.log('all dataaaaa----', users, chartInfo, diseases, pdfs, medicaments)
 
   const VizitaTab = () => (
     <Vizita
@@ -65,6 +63,7 @@ export default function Profile(props) {
     chartInfo={chartInfo}
     diseases={diseases}
     medicaments={medicaments}
+    getAll={getAll}
   />
   );
   

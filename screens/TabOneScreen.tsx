@@ -63,7 +63,7 @@ const TabOneScreen:FunctionComponent  = (props) => {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Upisite OIB pacijenta (10 znakova)</Text>
             <TextInput
-              style={{ backgroundColor: 'white', height: 40, borderColor: 'gray', borderWidth: 25 }}
+              style={{ backgroundColor: 'white', height: 40, borderColor: 'lightgray', borderWidth: 25 }}
               onChangeText={text => setOib(text)}
               value={oib}
             />
