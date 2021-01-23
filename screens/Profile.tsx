@@ -8,7 +8,7 @@ import Table from '../components/Table'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Separator from '../components/Separator'
-import background from '../assets/images/background.jpg'
+// import background from '../assets/images/background.jpg'
 // import { getAllUserData } from "../helper/user";
 
 
@@ -19,6 +19,7 @@ export default function Profile(props) {
 
   useEffect(() => {
     setLoading(true)
+    console.log('route', props)
     const {charts, user} = _.get(props, 'route.params.data')
     setUser(user)
     setChart(charts)

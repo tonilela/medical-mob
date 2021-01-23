@@ -6,6 +6,8 @@ import { TabView, SceneMap } from 'react-native-tab-view';
 import Vizita from '../components/Vizita';
 import { Text, View } from '../components/Themed';
 import { getAllUserData, getAllStaticData } from "../helper/user";
+import Nalazi from '../components/Nalazi';
+import Review from '../components/Review';
 
 
 const initialLayout = { width: Dimensions.get('window').width };
@@ -47,6 +49,7 @@ export default function Profile(props) {
       setDiseases(diseases.diseases)
       setPdfs(pdf)
       setUsers(users.users)
+      console.log('pdfss-----',pdfs)
     }
 
     const {id, patient_id} = _.get(props, 'route.params')
@@ -68,11 +71,17 @@ export default function Profile(props) {
   );
   
   const ReviewTab = () => (
-    <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
+    <Review
+    
+    chartInfo={chartInfo}
+    />
   );
 
   const NalaziTab = () => (
-    <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+    <Nalazi
+      pdfs={pdfs}
+      users={users}
+    />
   );
 
   const renderScene = SceneMap({

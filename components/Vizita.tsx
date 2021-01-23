@@ -2,8 +2,15 @@ import  React, { useState, useEffect } from 'react';
 import { DataTable, Card, Title, Paragraph, Portal, Button, Provider } from 'react-native-paper';
 import _ from 'lodash'
 import moment from 'moment'
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph
+} from 'react-native-chart-kit'
 import {MaterialIcons} from '@expo/vector-icons';
-import { ScrollView, Modal, StyleSheet,TextInput, TouchableHighlight } from "react-native";
+import { ScrollView, Modal, StyleSheet,TextInput, Dimensions, TouchableHighlight } from "react-native";
 // import { Multiselect } from 'multiselect-react-dropdown';
 import { createNewChartInfo } from '../helper/user'
 import SelectMultiple from 'react-native-select-multiple'
@@ -22,6 +29,9 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
   const [temperature, setTemperature] = useState('')
   const [selectedDisease, setSelectedDisease] = useState([])
   const [selectedMedicaments, setSelectedMedicaments] = useState([])
+  const [temperatureArray, setTemperatureArray] = useState<number[]>([])
+  const [dateArray, setDateArray] = useState<string[]>([])
+
   const showModal = () => setVisible(true);
 
   const hideModal = () => { 
@@ -32,7 +42,42 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
     setVisible(false);
   }
   
-  const containerStyle = {backgroundColor: 'white', padding: 20};
+  const setGraph = (data) => {
+    _.each(data, c => {
+      const { created_at } = c
+      const date = `${moment(created_at).format('YYYY-MM-DD')}`
+      setDateArray([...dateArray, date])
+    })
+    // const created_at1 = moment(created_at).format('YYYY-MM-DD')
+    // console.log(temp1)
+    // setTemperatureArray(temperatureArray.concat(temp1))
+    // setDateArray([...dateArray,...temp2])
+   
+  }
+
+  useEffect(() => {
+    // console.log(chartInfo.chartInfo)
+    // const temp1 = _.map(chartInfo.chartInfo, c => {
+    //   const { temperature } = c
+    //   console.log(temperature)
+    //   return parseFloat(temperature)
+    // })
+    const dates = _.map(chartInfo.chartInfo, c => {
+      const { created_at } = c
+      return `${moment(created_at).format('MM-DD')}`
+    })
+    const temp = _.map(_.reverse(chartInfo.chartInfo), c => {
+      const { temperature } = c
+      return parseFloat(temperature)
+    })
+    setDateArray(_.reverse(dates))
+    setTemperatureArray(temp)
+    // console.log('temperastuare=====',temperatureArray)
+    // return () => {
+    //   setTemperatureArray([])
+    //   setDateArray([])
+    // }
+  }, []);
 
   if(_.isEmpty(users)|| _.isEmpty(chartInfo) || _.isEmpty(medicaments) || _.isEmpty(diseases)) {
     return (
@@ -171,6 +216,43 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
             ? _.map(lastMedicamentsMap, (d, i) => <Paragraph key={i}>- {d}</Paragraph>)
             : <Paragraph>Nema pripisanih ljekova</Paragraph>}
         </Card.Content>
+        <Separator/>
+
+        {!_.isEmpty(temperatureArray) && !_.isEmpty(dateArray) && <View>
+          <Text>
+            Temperatura za period {_.last(dateArray)} - {_.first(dateArray)}
+          </Text>
+          <ScrollView
+            horizontal={true}
+            >
+          <LineChart
+            data={{
+              labels: dateArray,
+              datasets: [{
+                data: temperatureArray,
+              }]
+            }}
+            width={_.size(temperatureArray) > 5 ? Dimensions.get('window').width + ((_.size(temperatureArray)-5) * 72): Dimensions.get('window').width} // from react-native
+            height={220}
+            chartConfig={{
+              backgroundColor: '#e26a00',
+              backgroundGradientFrom: '#fb8c00',
+              backgroundGradientTo: '#ffa726',
+              decimalPlaces: 2, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16
+              }
+            }}
+            bezier
+            style={{
+              marginVertical: 8,
+              borderRadius: 16
+            }}
+          />
+          </ScrollView>
+        </View>}
+
         <Separator/>
         {/* ovde ide graf temperaturaaaaa */}
         {_.map(_.reverse(info), i =>

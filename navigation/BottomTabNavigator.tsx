@@ -6,6 +6,7 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
+import Login from '../screens/Login';
 import Profile from '../screens/Profile';
 import Chart from '../screens/Chart';
 import { BottomTabParamList, TabOneParamList, ProfileParamList } from '../types';
@@ -50,6 +51,11 @@ const TabOneStack = createStackNavigator<any>();
 function TabOneNavigator() {
   return (
     <TabOneStack.Navigator>
+      <TabOneStack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerTitle: 'Login' }}
+      />
       <TabOneStack.Screen
         name="TabOneScreen"
         component={TabOneScreen}

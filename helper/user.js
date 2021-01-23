@@ -54,7 +54,7 @@ async function getAllUserData (id, patient_id) {
         },
       })
 
-      
+      console.log('chart------',chart)
     return chart
   } catch (err) {
     console.log('errr',err)
@@ -122,10 +122,38 @@ async function createNewChartInfo (userId, chartId, data) {
   }
 }
 
+async function loginUser (email) {
+ 
+  try {
+    const login = await axios.post(`http://${ipAddress}:3003/signin/mob`, {email})
+
+    return login
+  } catch (err) {
+    console.log('errr',err)
+    return false
+  }
+}
+
+async function sendCode (token) {
+ 
+  try {
+    const login = await axios.post(`http://${ipAddress}:3003/auth/token/mob`, {token})
+
+    return login
+  } catch (err) {
+    console.log('errr',err)
+    return false
+  }
+}
+
+
+
 module.exports = {
   getUser,
   getUserByOIB,
   getAllUserData,
   getAllStaticData,
   createNewChartInfo,
+  loginUser,
+  sendCode,
 }

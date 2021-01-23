@@ -2271,6 +2271,11 @@ blueimp-md5@^2.10.0:
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/blueimp-md5/-/blueimp-md5-2.18.0.tgz#1152be1335f0c6b3911ed9e36db54f3e6ac52935"
   integrity sha1-EVK+EzXwxrORHtnjbbVPPmrFKTU=
 
+boolbase@^1.0.0, boolbase@~1.0.0:
+  version "1.0.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
+  integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
+
 bplist-creator@0.0.8:
   version "0.0.8"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/bplist-creator/-/bplist-creator-0.0.8.tgz#56b2a6e79e9aec3fc33bf831d09347d73794e79c"
@@ -2790,6 +2795,29 @@ css-in-js-utils@^2.0.0:
     hyphenate-style-name "^1.0.2"
     isobject "^3.0.1"
 
+css-select@^2.1.0:
+  version "2.1.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/css-select/-/css-select-2.1.0.tgz#6a34653356635934a81baca68d0255432105dbef"
+  integrity sha1-ajRlM1ZjWTSoG6ymjQJVQyEF2+8=
+  dependencies:
+    boolbase "^1.0.0"
+    css-what "^3.2.1"
+    domutils "^1.7.0"
+    nth-check "^1.0.2"
+
+css-tree@^1.0.0-alpha.39:
+  version "1.1.2"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/css-tree/-/css-tree-1.1.2.tgz#9ae393b5dafd7dae8a622475caec78d3d8fbd7b5"
+  integrity sha1-muOTtdr9fa6KYiR1yux409j717U=
+  dependencies:
+    mdn-data "2.0.14"
+    source-map "^0.6.1"
+
+css-what@^3.2.1:
+  version "3.4.2"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/css-what/-/css-what-3.4.2.tgz#ea7026fcb01777edbde52124e21f327e7ae950e4"
+  integrity sha1-6nAm/LAXd+295SEk4h8yfnrpUOQ=
+
 cssom@^0.4.1:
   version "0.4.4"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/cssom/-/cssom-0.4.4.tgz#5a66cf93d2d0b661d80bf6a44fb65f5c2e4e0a10"
@@ -2966,12 +2994,38 @@ diff-sequences@^25.2.6:
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/diff-sequences/-/diff-sequences-25.2.6.tgz#5f467c00edd35352b7bca46d7927d60e687a76dd"
   integrity sha1-X0Z8AO3TU1K3vKRteSfWDmh6dt0=
 
+dom-serializer@0:
+  version "0.2.2"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/dom-serializer/-/dom-serializer-0.2.2.tgz#1afb81f533717175d478655debc5e332d9f9bb51"
+  integrity sha1-GvuB9TNxcXXUeGVd68XjMtn5u1E=
+  dependencies:
+    domelementtype "^2.0.1"
+    entities "^2.0.0"
+
+domelementtype@1:
+  version "1.3.1"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/domelementtype/-/domelementtype-1.3.1.tgz#d048c44b37b0d10a7f2a3d5fee3f4333d790481f"
+  integrity sha1-0EjESzew0Qp/Kj1f7j9DM9eQSB8=
+
+domelementtype@^2.0.1:
+  version "2.1.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/domelementtype/-/domelementtype-2.1.0.tgz#a851c080a6d1c3d94344aed151d99f669edf585e"
+  integrity sha1-qFHAgKbRw9lDRK7RUdmfZp7fWF4=
+
 domexception@^1.0.1:
   version "1.0.1"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/domexception/-/domexception-1.0.1.tgz#937442644ca6a31261ef36e3ec677fe805582c90"
   integrity sha1-k3RCZEymoxJh7zbj7Gd/6AVYLJA=
   dependencies:
     webidl-conversions "^4.0.2"
+
+domutils@^1.7.0:
+  version "1.7.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/domutils/-/domutils-1.7.0.tgz#56ea341e834e06e6748af7a1cb25da67ea9f8c2a"
+  integrity sha1-Vuo0HoNOBuZ0ivehyyXaZ+qfjCo=
+  dependencies:
+    dom-serializer "0"
+    domelementtype "1"
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"
@@ -3019,6 +3073,11 @@ end-of-stream@^1.1.0:
   integrity sha1-WuZKX0UFe682JuwU2gyl5LJDHrA=
   dependencies:
     once "^1.4.0"
+
+entities@^2.0.0:
+  version "2.1.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/entities/-/entities-2.1.0.tgz#992d3129cf7df6870b96c57858c249a120f8b8b5"
+  integrity sha1-mS0xKc999ocLlsV4WMJJoSD4uLU=
 
 envinfo@^7.7.2:
   version "7.7.3"
@@ -3245,6 +3304,13 @@ expo-asset@~8.2.1:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
+expo-barcode-scanner@~9.1.0:
+  version "9.1.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/expo-barcode-scanner/-/expo-barcode-scanner-9.1.0.tgz#c699c2ef99478b0ea484a1ccc1f60562f60a3663"
+  integrity sha1-xpnC75lHiw6khKHMwfYFYvYKNmM=
+  dependencies:
+    lodash "^4.6.0"
+
 expo-constants@~9.3.0, expo-constants@~9.3.3:
   version "9.3.5"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/expo-constants/-/expo-constants-9.3.5.tgz#78085763e8ed100a5f2df7c682fd99631aa03d5e"
@@ -3299,6 +3365,11 @@ expo-location@~10.0.0:
   version "10.0.0"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/expo-location/-/expo-location-10.0.0.tgz#2923411649434f2f079343b163b13c5c9eee8b2d"
   integrity sha1-KSNBFklDTy8Hk0OxY7E8XJ7uiy0=
+
+expo-media-library@~10.0.0:
+  version "10.0.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/expo-media-library/-/expo-media-library-10.0.0.tgz#44ab985fa684a9cf5b23d50ac5874b61bfe779c7"
+  integrity sha1-RKuYX6aEqc9bI9UKxYdLYb/necc=
 
 expo-permissions@~10.0.0:
   version "10.0.0"
@@ -5267,6 +5338,11 @@ md5-file@^3.2.3:
   dependencies:
     buffer-alloc "^1.1.0"
 
+mdn-data@2.0.14:
+  version "2.0.14"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/mdn-data/-/mdn-data-2.0.14.tgz#7113fc4281917d63ce29b43446f701e68c25ba50"
+  integrity sha1-cRP8QoGRfWPOKbQ0RvcB5owlulA=
+
 merge-stream@^1.0.1:
   version "1.0.1"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/merge-stream/-/merge-stream-1.0.1.tgz#4041202d508a342ba00174008df0c251b8c135e1"
@@ -5883,6 +5959,13 @@ npm-run-path@^4.0.0:
   dependencies:
     path-key "^3.0.0"
 
+nth-check@^1.0.2:
+  version "1.0.2"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/nth-check/-/nth-check-1.0.2.tgz#b2bd295c37e3dd58a3bf0700376663ba4d9cf05c"
+  integrity sha1-sr0pXDfj3VijvwcAN2Zjuk2c8Fw=
+  dependencies:
+    boolbase "~1.0.0"
+
 nullthrows@^1.1.0, nullthrows@^1.1.1:
   version "1.1.1"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/nullthrows/-/nullthrows-1.1.1.tgz#7818258843856ae971eae4208ad7d7eb19a431b1"
@@ -6190,6 +6273,11 @@ path-parse@^1.0.6:
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
   integrity sha1-1i27VnlAXXLEc37FhgDp3c8G0kw=
 
+paths-js@^0.4.10:
+  version "0.4.11"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/paths-js/-/paths-js-0.4.11.tgz#b2a9d5f94ee9949aa8fee945f78a12abff44599e"
+  integrity sha1-sqnV+U7plJqo/ulF94oSq/9EWZ4=
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -6262,6 +6350,11 @@ pngjs@^5.0.0:
   version "5.0.0"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/pngjs/-/pngjs-5.0.0.tgz#e79dd2b215767fd9c04561c01236df960bce7fbb"
   integrity sha1-553SshV2f9nARWHAEjbflgvOf7s=
+
+point-in-polygon@^1.0.1:
+  version "1.0.1"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/point-in-polygon/-/point-in-polygon-1.0.1.tgz#d59b64e8fee41c49458aac82b56718c5957b2af7"
+  integrity sha1-1Ztk6P7kHElFiqyCtWcYxZV7Kvc=
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
@@ -6455,6 +6548,15 @@ react-native-action-button@^2.8.5:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-chart-kit@^6.9.0:
+  version "6.9.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/react-native-chart-kit/-/react-native-chart-kit-6.9.0.tgz#dca879f311c96a4d05f2298d09ca7930a5f7bd83"
+  integrity sha1-3Kh58xHJak0F8imNCcp5MKX3vYM=
+  dependencies:
+    lodash "^4.17.13"
+    paths-js "^0.4.10"
+    point-in-polygon "^1.0.1"
+
 react-native-elements@^3.0.1:
   version "3.0.1"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/react-native-elements/-/react-native-elements-3.0.1.tgz#e754d5fdfb207168d053a60771aec91e5771b116"
@@ -6543,6 +6645,14 @@ react-native-size-matters@^0.3.1:
   version "0.3.1"
   resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha1-JNDPwzWixzD21YvXtD6lpBvktJ8=
+
+react-native-svg@^12.1.0:
+  version "12.1.0"
+  resolved "https://foundationmedicine.jfrog.io/foundationmedicine/api/npm/npm/react-native-svg/-/react-native-svg-12.1.0.tgz#acfe48c35cd5fca3d5fd767abae0560c36cfc03d"
+  integrity sha1-rP5Iw1zV/KPV/XZ6uuBWDDbPwD0=
+  dependencies:
+    css-select "^2.1.0"
+    css-tree "^1.0.0-alpha.39"
 
 react-native-tab-view@^2.15.2:
   version "2.15.2"

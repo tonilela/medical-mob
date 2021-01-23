@@ -6,21 +6,28 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { getUserByOIB } from "../helper/user";
 
+import * as Permissions from 'expo-permissions';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import QRCode from '../components/QRCode';
+
 const TabOneScreen:FunctionComponent  = (props) => {
   // const [user, setUser] = useState({})
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false)
   const [oib, setOib] = useState('')
+  const [hasPermission, setHasPermission] = useState(false);
 
-  // useEffect(() => {
-  //   // async function getUsers1 () {
-  //   //   let response = await getUser(1)
-  //   //   console.log('usersss',response)
-  //   // }
+  const [scanned, setScanned] = useState(false);
+
+  useEffect(() => {
+    // async function getUsers1 () {
+    //   let response = await getUser(1)
+    //   console.log('usersss',response)
+    // }
     
-  //   // getUsers1()
-  //   console.log(props)
-  // }, []);
+    // getUsers1()
+    console.log('first time Tab one',props)
+  }, []);
 
   const handleWriteIdButton = () => {
     setModalVisible(true)
@@ -47,6 +54,55 @@ const TabOneScreen:FunctionComponent  = (props) => {
     setErrorMsg(false)
     // setUser({})
     setOib('')
+  }
+
+  const handleBarCodeScanned = async({ type, data }) => {
+
+    const userData = await getUserByOIB(data)
+    if(_.isEmpty(userData)){
+      console.log('nije ga nasloooo')
+    } else {
+    setScanned(true);
+    const navigation = _.get(props, 'navigation')
+    navigation.navigate('Profile', {
+      data: userData
+    })
+    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  }};
+
+  const handleOpenQR = async() => {
+    console.log('tuu smoooooo')
+    setScanned(false)
+    const { status } = await BarCodeScanner.requestPermissionsAsync();
+    console.log('status',status)
+    const perm = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (perm.status != 'granted') {
+      return;
+    }
+    setHasPermission(status === 'granted');
+
+  
+    if (hasPermission === null) {
+      return <Text>Requesting for camera permission</Text>;
+    }
+    if (hasPermission === false) {
+      return <Text>No access to camera</Text>;
+    }
+  console.log('iza svega')
+  }
+
+  if(hasPermission && !scanned) {
+    return (
+      <View style={styles.container}>
+        {console.log('i tu')}
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+        {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+        {/* <Button title={'Tap to Scan Again'} onPress={()=>console.log('hiii')}/> */}
+      </View>
+    );
   }
 
   return (
@@ -94,8 +150,16 @@ const TabOneScreen:FunctionComponent  = (props) => {
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
+      <Button
+        onPress={handleOpenQR}
+        title="skeniraj QR kod"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />
       <Text style={styles.title}>Tab aaaaaaaOne</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      
+      {/* <QRCode /> */}
       <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
