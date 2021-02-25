@@ -1,4 +1,4 @@
-import  React, { useState, useEffect } from 'react';
+import  React, { useState, useEffect, useContext } from 'react';
 import { DataTable, Card, Title, Paragraph, Portal, Button, Provider } from 'react-native-paper';
 import _ from 'lodash'
 import moment from 'moment'
@@ -14,6 +14,7 @@ import { ScrollView, Modal, StyleSheet,TextInput, Dimensions, TouchableHighlight
 // import { Multiselect } from 'multiselect-react-dropdown';
 import { createNewChartInfo } from '../helper/user'
 import SelectMultiple from 'react-native-select-multiple'
+import { AppContext } from '../provider/AppContext'
 
 import { Text, View } from '../components/Themed';
 
@@ -31,7 +32,7 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
   const [selectedMedicaments, setSelectedMedicaments] = useState([])
   const [temperatureArray, setTemperatureArray] = useState<number[]>([])
   const [dateArray, setDateArray] = useState<string[]>([])
-
+  const { user } = useContext(AppContext)
   const showModal = () => setVisible(true);
 
   const hideModal = () => { 
@@ -48,20 +49,9 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
       const date = `${moment(created_at).format('YYYY-MM-DD')}`
       setDateArray([...dateArray, date])
     })
-    // const created_at1 = moment(created_at).format('YYYY-MM-DD')
-    // console.log(temp1)
-    // setTemperatureArray(temperatureArray.concat(temp1))
-    // setDateArray([...dateArray,...temp2])
-   
   }
 
   useEffect(() => {
-    // console.log(chartInfo.chartInfo)
-    // const temp1 = _.map(chartInfo.chartInfo, c => {
-    //   const { temperature } = c
-    //   console.log(temperature)
-    //   return parseFloat(temperature)
-    // })
     const dates = _.map(chartInfo.chartInfo, c => {
       const { created_at } = c
       return `${moment(created_at).format('MM-DD')}`
@@ -72,11 +62,6 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
     })
     setDateArray(_.reverse(dates))
     setTemperatureArray(temp)
-    // console.log('temperastuare=====',temperatureArray)
-    // return () => {
-    //   setTemperatureArray([])
-    //   setDateArray([])
-    // }
   }, []);
 
   if(_.isEmpty(users)|| _.isEmpty(chartInfo) || _.isEmpty(medicaments) || _.isEmpty(diseases)) {
@@ -133,9 +118,9 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
 
   return (
     <ScrollView>
-           <Button onPress={showModal}>
+           {_.get(user, 'title') !== 'patient' && <Button onPress={showModal}>
              Novi Unos
-           </Button>
+           </Button>}
 
         <Modal
           animationType="slide"

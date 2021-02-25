@@ -45,7 +45,7 @@ export default function Profile(props) {
     async function getStaticData (id, patient_id) {
       const { users, diseases, medicaments, pdf } = await getAllStaticData(id, patient_id)
     
-      setMedicaments(medicaments.medicaments)
+      setMedicaments(_.get(medicaments, 'medicaments'))
       setDiseases(diseases.diseases)
       setPdfs(pdf)
       setUsers(users.users)

@@ -1,7 +1,7 @@
 const axios = require('axios')
 const _ = require('lodash')
 
-const ipAddress = '192.168.43.142'
+const ipAddress = '192.168.4.142'
 const token = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjA5MDU5MTg2fQ.W0L5aLNONBRZtmMPOE5rrAyOmquAbtfn1c8oEC59cJ4`
 
 async function getUser (userId) {
@@ -146,6 +146,22 @@ async function sendCode (token) {
   }
 }
 
+async function saveReview (review, chartId) {
+ 
+  try {
+    const resp = await axios.post(`http://${ipAddress}:3003/chart/${chartId}/review`, {review},{
+      headers: {
+        Authorization: token,
+      },
+    },)
+
+    return resp
+  } catch (err) {
+    console.log('errr',err)
+    return false
+  }
+}
+
 
 
 module.exports = {
@@ -156,4 +172,5 @@ module.exports = {
   createNewChartInfo,
   loginUser,
   sendCode,
+  saveReview,
 }
