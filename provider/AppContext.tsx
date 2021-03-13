@@ -2,7 +2,7 @@ import React, { createContext, FunctionComponent, useState, useEffect } from 're
 
 const AppContext = React.createContext({
   setUser: (user) => {
-    return 
+    return
   },
   user: undefined
 })
@@ -10,11 +10,16 @@ const AppContext = React.createContext({
 const AppContextProvider = ({children}) => {
   const [test, setTestState] = useState('this is test state');
   const [user, setUser] = useState(undefined);
-  
+
   useEffect(() => {
-    // auth page i 
+    // auth page i
   }, []);
-  
+
+  const logOut = () => {
+    // setUser(undefined)
+
+  }
+
   return (
     <AppContext.Provider value={{ user, setUser }}>
       {children}

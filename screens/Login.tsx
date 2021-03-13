@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text, Button } from 'react-native-paper'
 import _ from 'lodash'
@@ -21,6 +21,10 @@ const LoginScreen = ({ navigation }) => {
   const [buttonBlock, setButton] = useState(false)
 
   const {setUser} = useContext(AppContext);
+
+  useEffect(() =>{
+    setUser(undefined)
+  }, [])
 
   const onLoginPressed = async() => {
     setButton(true)

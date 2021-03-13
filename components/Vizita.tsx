@@ -120,8 +120,9 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
 
   return (
     <ScrollView>
+        {console.log('userss------',chartInfo)}
       {/* provjera za doktora ide tuuuuuu , da si ne moze sam unositi */}
-           {_.get(user, 'title') !== 'patient' && <Button onPress={showModal}>
+           {_.get(user, 'title') !== 'patient' && _.get(chartInfo, 'id') != _.get(user, 'id') && <Button onPress={showModal}>
              Add new
            </Button>}
 

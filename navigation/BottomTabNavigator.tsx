@@ -1,7 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
+import React, { useState, useContext } from 'react'
+import _ from "lodash";
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -9,31 +10,38 @@ import TabOneScreen from '../screens/TabOneScreen';
 import Login from '../screens/Login';
 import Profile from '../screens/Profile';
 import Chart from '../screens/Chart';
+import LogOut from "../screens/LogOut";
 import { BottomTabParamList, TabOneParamList, ProfileParamList } from '../types';
+
+import { AppContext } from '../provider/AppContext'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  const {user} = useContext(AppContext);
+
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      {console.log('this is user--------',user)}
       <BottomTab.Screen
         name="Home"
         component={TabOneNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarVisible: _.isEmpty(user) ? false : true
         }}
       />
-      {/* <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+     {!_.isEmpty(user) && <BottomTab.Screen
+        name="Log Out"
+        component={LogOut}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
-      /> */}
+      />}
     </BottomTab.Navigator>
   );
 }
@@ -48,7 +56,8 @@ function TabBarIcon(props: { name: string; color: string }) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator<any>();
 
-function TabOneNavigator() {
+function TabOneNavigator(props) {
+  console.log('TabOneNavigator======',props)
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
