@@ -1,13 +1,16 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
-import { Alert, Modal, StyleSheet, TouchableHighlight, Button, TextInput } from 'react-native';
+import { Alert, Modal, StyleSheet, TouchableHighlight, TextInput } from 'react-native';
 import _ from 'lodash'
-
+import { Button } from 'react-native-paper'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { getUserByOIB } from "../helper/user";
 
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+
+import { theme } from '../assets/theme'
+
 import QRCode from '../components/QRCode';
 
 const TabOneScreen:FunctionComponent  = (props) => {
@@ -24,7 +27,7 @@ const TabOneScreen:FunctionComponent  = (props) => {
     //   let response = await getUser(1)
     //   console.log('usersss',response)
     // }
-    
+
     // getUsers1()
     console.log('first time Tab one',props)
   }, []);
@@ -79,28 +82,33 @@ const TabOneScreen:FunctionComponent  = (props) => {
     if (perm.status != 'granted') {
       return;
     }
+    console.log('1===')
     setHasPermission(status === 'granted');
 
-  
+
     if (hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;
     }
+    console.log('2===')
     if (hasPermission === false) {
       return <Text>No access to camera</Text>;
     }
+    console.log('3===')
   console.log('iza svega')
   }
 
   if(hasPermission && !scanned) {
+    console.log('-----u kameri-----')
     return (
       <View style={styles.container}>
-        {console.log('i tu')}
+        {console.log('i tu',scanned )}
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
+          // style={StyleSheet.absoluteFillObject}
+          style={styles.camera}
         />
-        {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-        {/* <Button title={'Tap to Scan Again'} onPress={()=>console.log('hiii')}/> */}
+        {scanned && <Button  onPress={() => setScanned(false)} >Tap to Scan Again </Button>}
+        {!scanned && <Button  onPress={() => setScanned(true)} > Close Scanned</Button>}
       </View>
     );
   }
@@ -127,48 +135,77 @@ const TabOneScreen:FunctionComponent  = (props) => {
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: oib.length !== 10 ? 'grey' : '#2196F3' }}
                 onPress={handlePretraziKorisnika}
-                disabled={oib.length !== 10}  
+                disabled={oib.length !== 10}
               >
-                <Text style={styles.textStyle}>Pretrazi</Text>
+                <Text style={styles.textStyle}>Search</Text>
               </TouchableHighlight>
 
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                 onPress={handleCloseModal}
               >
-                <Text style={styles.textStyle}>Zatvori</Text>
+                <Text style={styles.textStyle}>Close</Text>
               </TouchableHighlight>
             </View>
-            {errorMsg && <Text style={styles.errorModalText}>Korisnik ne postoji</Text>}
+            {errorMsg && <Text style={styles.errorModalText}>User does not exist</Text>}
           </View>
         </View>
       </Modal>
       {/* botuni */}
-      <Button
+      {/* <Button
         onPress={handleWriteIdButton}
         title="Upisi OIB"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
-      />
+      /> */}
+      <Text
+        style={styles.text}
+      >
+        Welcome to QR-code medical App
+        Please press the button if you want to scan medical QR-code
+      </Text>
       <Button
         onPress={handleOpenQR}
-        title="skeniraj QR kod"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
-      <Text style={styles.title}>Tab aaaaaaaOne</Text>
+        style={styles.button}
+      >
+        Scan QR code
+      </Button>
+      {/* <Text style={styles.title}>Tab aaaaaaaOne</Text> */}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      
+
       {/* <QRCode /> */}
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  camera: {
+    width: 450,
+    height: 600,
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    borderTopLeftRadius: 1,
+    borderStyle:'solid',
+    margin: 10,
+  },
+  text:{
+    width: 300,
+    marginBottom: 50,
+    fontFamily: 'Roboto',
+    lineHeight: 30,
+    // fontSize: 15,
+  },
   twoButtons: {
     marginVertical: 30,
     flexDirection:"row"
+  },
+  button: {
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    borderTopLeftRadius: 1,
+    borderStyle:'solid',
+    margin: 10,
   },
   container: {
     flex: 1,

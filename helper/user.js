@@ -1,7 +1,7 @@
 const axios = require('axios')
 const _ = require('lodash')
 
-const ipAddress = '192.168.4.142'
+const ipAddress = '192.168.1.113'
 const token = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjA5MDU5MTg2fQ.W0L5aLNONBRZtmMPOE5rrAyOmquAbtfn1c8oEC59cJ4`
 
 async function getUser (userId) {
@@ -12,7 +12,7 @@ async function getUser (userId) {
           Authorization: token,
         },
       })
-  
+
       // console.log('users',user)
     return _.get(user, 'data')
   } catch (err) {
@@ -28,14 +28,14 @@ async function getUserByOIB (oib) {
           Authorization: token,
         },
       })
-      // console.log('response 1 -----',response1)
+      console.log('response 1 -----',response1)
       const user = _.get(response1, 'data')
       const response2 = await axios.get(`http://${ipAddress}:3003/user/${user.id}/chart/mob`,{
         headers: {
           Authorization: token,
         },
       })
-  
+
       const charts = _.get(response2,'data')
       // console.log(charts, user)
     return {user, charts}
@@ -123,7 +123,7 @@ async function createNewChartInfo (userId, chartId, data) {
 }
 
 async function loginUser (email) {
- 
+
   try {
     const login = await axios.post(`http://${ipAddress}:3003/signin/mob`, {email})
 
@@ -135,7 +135,7 @@ async function loginUser (email) {
 }
 
 async function sendCode (token) {
- 
+
   try {
     const login = await axios.post(`http://${ipAddress}:3003/auth/token/mob`, {token})
 
@@ -147,15 +147,16 @@ async function sendCode (token) {
 }
 
 async function saveReview (review, chartId) {
- 
+
   try {
+    console.log('prijeeeee')
     const resp = await axios.post(`http://${ipAddress}:3003/chart/${chartId}/review`, {review},{
       headers: {
         Authorization: token,
       },
     },)
 
-    return resp
+    return _.get(resp, 'data')
   } catch (err) {
     console.log('errr',err)
     return false

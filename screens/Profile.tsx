@@ -8,6 +8,8 @@ import Table from '../components/Table'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Separator from '../components/Separator'
+
+import Spinner from 'react-native-loading-spinner-overlay';
 // import background from '../assets/images/background.jpg'
 // import { getAllUserData } from "../helper/user";
 
@@ -49,7 +51,7 @@ export default function Profile(props) {
     } = user
 
     return (
-      <View>
+      <View style={styles.mainView}>
         {/* <ImageBackground
           style={styles.headerBackgroundImage}
           blurRadius={10}
@@ -64,63 +66,68 @@ export default function Profile(props) {
                 uri: `https://medial-api.s3.eu-central-1.amazonaws.com/profile/${picture ? picture: 'default.png'}`,
               }}
             />
-            <Text style={styles.userNameText}>{fullName}</Text>
+            {/* <Text style={styles.userNameText}>{fullName}</Text> */}
             <View style={styles.userAddressRow}>
-              <View>
+              {/* <View>
                 <Icon
                   name="place"
                   underlayColor="transparent"
                   iconStyle={styles.placeIcon}
                 />
-              </View>
+              </View> */}
+
               <View style={styles.userDataRow}>
-                <View style={styles.viewRow}>
-                  <Text style={styles.title}>
-                    Ime:
-                  </Text>
-                  <Text style={styles.userData}>
-                    {fullName}
-                  </Text>
+                <View style={styles.dataColumn}>
+                  <View style={styles.viewRow}>
+                    <Text style={styles.title}>
+                      Full name:
+                    </Text>
+                    <Text style={styles.userData}>
+                      {fullName}
+                    </Text>
+                  </View>
+                  <View style={styles.viewRow}>
+                    <Text style={styles.title}>
+                      Date of birth:
+                    </Text>
+                    <Text style={styles.userData}>
+                      {moment(dateOfBirth).format('YYYY-MM-DD')}
+                    </Text>
+                  </View>
+                  <View style={styles.viewRow}>
+                    <Text style={styles.title}>
+                      Email:
+                    </Text>
+                    <Text style={styles.userData}>
+                      {email}
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.viewRow}>
-                  <Text style={styles.title}>
-                    Datum rodenja:
-                  </Text>
-                  <Text style={styles.userData}>  
-                    {moment(dateOfBirth).format('YYYY-MM-DD')}
-                  </Text>
-                </View>
-                <View style={styles.viewRow}>
-                  <Text style={styles.title}>
-                    email:s
-                  </Text>
-                  <Text style={styles.userData}>
-                    {email}
-                  </Text>
-                </View>
-                <View style={styles.viewRow}>
-                  <Text style={styles.title}>
-                    Oib:
-                  </Text>
-                  <Text style={styles.userData}>
-                    {oib}
-                  </Text>
-                </View>
-                <View style={styles.viewRow}>
-                  <Text style={styles.title}>
-                    Spol:
-                  </Text>
-                  <Text style={styles.userData}>
-                    {sex}
-                  </Text>
-                </View>
-                <View style={styles.viewRow}>
-                  <Text style={styles.title}>
-                    Titula:
-                  </Text>
-                  <Text style={styles.userData}>
-                    {title}
-                  </Text>
+                <View>
+                  <View style={styles.viewRow}>
+                    <Text style={styles.title}>
+                      MBG:
+                    </Text>
+                    <Text style={styles.userData}>
+                      {oib}
+                    </Text>
+                  </View>
+                  <View style={styles.viewRow}>
+                    <Text style={styles.title}>
+                      Gender:
+                    </Text>
+                    <Text style={styles.userData}>
+                      {sex}
+                    </Text>
+                  </View>
+                  <View style={styles.viewRow}>
+                    <Text style={styles.title}>
+                      Role:
+                    </Text>
+                    <Text style={styles.userData}>
+                      {title}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -133,7 +140,7 @@ export default function Profile(props) {
   if(loading){
     return(
       <View>
-        <Text> loadingggg</Text>
+        <Spinner />
       </View>
     )
   }
@@ -143,8 +150,8 @@ export default function Profile(props) {
     <View style={styles.container}>
       {/* <Card containerStyle={styles.cardContainer}> */}
         {renderProfile()}
-        {Separator()}
-        {<Table 
+        {/* {Separator()} */}
+        {<Table
           handlePress={handlePress}
           charts={chart}
         />}
@@ -155,12 +162,19 @@ export default function Profile(props) {
 }
 
 const styles = StyleSheet.create({
+  mainView: {
+    marginBottom: 20,
+  },
+  dataColumn: {
+    paddingRight:40,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   userDataRow: {
+    flexDirection: 'row',
     backgroundColor: 'transparent',
   },
   viewRow: {
@@ -186,7 +200,7 @@ const styles = StyleSheet.create({
     borderRadius: 85,
     borderWidth: 3,
     height: 170,
-    marginBottom: 15,
+    margin: 30,
     width: 170,
   },
   headerBackgroundImage: {
@@ -198,7 +212,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
-  },  
+  },
   placeIcon: {
     color: 'white',
     fontSize: 26,

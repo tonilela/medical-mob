@@ -8,52 +8,67 @@ import { AppContext } from "../provider/AppContext";
 import { Text, View } from './Themed';
 import { saveReview } from '../helper/user'
 
+import { theme } from '../assets/theme'
 
-const Review = ({chartInfo}) => {
+
+const Review = ({chartInfo, getAll }) => {
   const [visible, setVisible] = useState(false);
   const [review, setReview] = useState('');
   const [error, setError] = useState('');
 
   const [chartId, setChartId] = useState(_.get(chartInfo, 'chart.id'))
+  const [reviewResp, setReviewResp] = useState({})
   const showModal = () => setVisible(true);
   const closeModal = () => {
     setVisible(false);
-  
+
   }
-  
+
   useEffect(()=>{
     console.log('chartInfo',chartInfo)
   }, [])
 
   const { user } = useContext(AppContext);
-  
+
   const handleSaveReview  = async() => {
     setError('')
     console.log('handleSaveReview0-------')
     try {
-      await saveReview(review, chartId)
+      const reviewResp =  await saveReview(review, chartId)
+      console.log('reviewResp=====',reviewResp)
+      await getAll(_.get(chartInfo, 'chart.id'), _.get(chartInfo, 'id'))
       setVisible(false)
     } catch (error) {
-      setError('Review nije spremljen, pokusajte ponovno')
+      setError('Review was not saved, try again')
     }
   }
 
   return (
     <ScrollView>
-      {_.get(user, 'title') === 'patient' && 
+      {console.log('chartInfo-----',chartInfo)}
+      {_.get(user, 'title') === 'patient' && !_.get(chartInfo, 'chartReview.review') && _.get(chartInfo, 'chart.closed_at') && !_.get(reviewResp, 'review') &&
         <Button onPress={showModal}>
-          Novi Unos
+          Add Review
         </Button>
       }
       <Modal
         animationType="slide"
         transparent={true}
         visible={visible}
+        style={styles.modal}
       >
+         <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'}}>
+    <View style={{
+            width: 300,
+            height: 300}}>
+
         <ScrollView >
           <View style={styles.modalView}>
-          <Text>Ostavite komentar na lijecenje</Text>
-          <Text>Info</Text>
+          <Text>Add Review</Text>
             <TextInput
               style={styles.textInputStyle}
               value={review}
@@ -63,37 +78,75 @@ const Review = ({chartInfo}) => {
 
           {/* {error && <Text>{error}</Text>} */}
 
-          <View style={styles.twoButtons}>
+          <View style={styles.buttons}>
+             <Button
+              onPress={handleSaveReview}
+              style={styles.button}
+              >
+              Save
+            </Button>
+             <Button
+              style={styles.button}
+              onPress={closeModal}
+            >
+              Exit
+            </Button>
+          </View>
+
+
+            {/* <View style={styles.twoButtons}>
               <TouchableHighlight
                 style={{ ...styles.openButton }}
                 onPress={handleSaveReview}
               >
-                <Text style={styles.textStyle}>Spremi</Text>
+                <Text style={styles.textStyle}>Save</Text>
               </TouchableHighlight>
 
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                 onPress={closeModal}
               >
-                <Text style={styles.textStyle}>Odustani</Text>
+                <Text style={styles.textStyle}>Exit</Text>
               </TouchableHighlight>
-            </View> 
+            </View> */}
           </View>
         </ScrollView>
+
+          </View>
+        </View>
       </Modal>
 
       <Card>
+        {_.get(chartInfo, 'chartReview.review') ?
         <Card.Content>
           <Paragraph>{moment(_.get(chartInfo, 'chartReview.created_at')).format('YYYY-MM-DD')}</Paragraph>
           <Paragraph>{_.get(chartInfo, 'fullName')}</Paragraph>
-          <Paragraph>{_.get(chartInfo, 'chartReview.review')}</Paragraph>
+          <Paragraph>{_.get(reviewResp, 'review') || _.get(chartInfo, 'chartReview.review')}</Paragraph>
+        </Card.Content> :
+        <Card.Content>
+          <Paragraph style={styles.centeredParagraph}>
+            User didn't left Review
+          </Paragraph>
         </Card.Content>
+      }
       </Card>
     </ScrollView>
   )
 };
 
 const styles = StyleSheet.create({
+  modal: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop:40,
+  },
+  centeredParagraph: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
   centeredView: {
     flex: 2,
     justifyContent: 'center',
@@ -101,25 +154,26 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   textInputStyle: {
-    width: 150,
-    height: 40,
+    width: 250,
+    height: 100,
     backgroundColor: 'lightgray',
     marginTop:30,
   },
   modalView: {
-    margin: 20,
+    width: 300,
+    // margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+    // elevation: 5,
   },
   textStyle: {
     color: 'white',
@@ -130,7 +184,18 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     flexDirection:"row"
   },
+  buttons: {
+    flexDirection: 'row',
+  },
+  button: {
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    borderTopLeftRadius: 1,
+    borderStyle:'solid',
+    margin: 10,
+  },
   openButton: {
+
     backgroundColor: '#F194FF',
     borderRadius: 20,
     padding: 10,

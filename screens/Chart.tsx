@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
-import { Alert, Modal, StyleSheet, Dimensions, TouchableHighlight, Button, TextInput } from 'react-native';
+import { Alert, Modal, StyleSheet, Dimensions, TouchableHighlight, Button, TextInput, ActivityIndicator } from 'react-native';
 import _ from 'lodash'
 import { TabView, SceneMap } from 'react-native-tab-view';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Vizita from '../components/Vizita';
 import { Text, View } from '../components/Themed';
@@ -22,16 +23,16 @@ export default function Profile(props) {
   const [openChart, setOpenChartCreate] = useState(false);
   const [loading, setLoading] = useState(false)
   const [routes] = React.useState([
-    { key: 'first', title: 'VizitaTab' },
-    { key: 'second', title: 'ReviewTab' },
-    { key: 'third', title: 'NalaziTab' },
+    { key: 'first', title: 'Visite' },
+    { key: 'second', title: 'Review' },
+    { key: 'third', title: 'Findings' },
   ]);
- 
+
   // const [modalOpen, setModalOpen] = useState(false)
 
   const getAll = async (id, patient_id) => {
     const chart = await getAllUserData(id, patient_id)
-  
+
     setChartInfo(chart)
   }
 
@@ -44,7 +45,7 @@ export default function Profile(props) {
 
     async function getStaticData (id, patient_id) {
       const { users, diseases, medicaments, pdf } = await getAllStaticData(id, patient_id)
-    
+
       setMedicaments(_.get(medicaments, 'medicaments'))
       setDiseases(diseases.diseases)
       setPdfs(pdf)
@@ -69,10 +70,10 @@ export default function Profile(props) {
     getAll={getAll}
   />
   );
-  
+
   const ReviewTab = () => (
     <Review
-    
+    getAll={getAll}
     chartInfo={chartInfo}
     />
   );
@@ -89,12 +90,12 @@ export default function Profile(props) {
     second: ReviewTab,
     third: NalaziTab,
   });
- 
+
 
   if(loading) {
     return (
       <View>
-        <Text> loadingggg</Text>
+        <Spinner visible={loading} />
       </View>
     )
   }

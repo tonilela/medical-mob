@@ -59,17 +59,17 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="TabOneScreen"
         component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
+        options={{ headerTitle: '' }}
       />
       <TabOneStack.Screen
         name="Profile"
         component={Profile}
-        options={{ headerTitle: 'Profile title' }}
+        options={{ headerTitle: 'Profile' }}
       />
       <TabOneStack.Screen
         name="Chart"
         component={Chart}
-        options={{ headerTitle: 'Chart title' }}
+        options={{ headerTitle: 'Chart' }}
       />
     </TabOneStack.Navigator>
   );

@@ -15,6 +15,8 @@ import { ScrollView, Modal, StyleSheet,TextInput, Dimensions, TouchableHighlight
 import { createNewChartInfo } from '../helper/user'
 import SelectMultiple from 'react-native-select-multiple'
 import { AppContext } from '../provider/AppContext'
+import { theme } from '../assets/theme'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import { Text, View } from '../components/Themed';
 
@@ -35,14 +37,14 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
   const { user } = useContext(AppContext)
   const showModal = () => setVisible(true);
 
-  const hideModal = () => { 
+  const hideModal = () => {
     setSelectedMedicaments([])
     setSelectedDisease([])
     setTemperature('')
     setInfo('')
     setVisible(false);
   }
-  
+
   const setGraph = (data) => {
     _.each(data, c => {
       const { created_at } = c
@@ -67,31 +69,31 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
   if(_.isEmpty(users)|| _.isEmpty(chartInfo) || _.isEmpty(medicaments) || _.isEmpty(diseases)) {
     return (
       <View>
-        <Text> loadingggg</Text>
+        <Spinner />
       </View>
     )
-  } 
+  }
 
   const {
-    lastMedicament, 
+    lastMedicament,
     lastDisease,
     chartInfo: info
   } = chartInfo
 
-  const lastDiseasesMap = _.map(lastDisease, d => 
+  const lastDiseasesMap = _.map(lastDisease, d =>
     _.get(
-      _.filter(diseases, v => d === v.id), 
+      _.filter(diseases, v => d === v.id),
         '[0].name'
       )
   )
-  
-  const lastMedicamentsMap = _.map(lastMedicament, d => 
+
+  const lastMedicamentsMap = _.map(lastMedicament, d =>
     _.get(
-      _.filter(medicaments, v => d === v.id), 
+      _.filter(medicaments, v => d === v.id),
         '[0].name'
       )
   )
-  
+
   const handleStvoriNovi = async() => {
     const {chart: {id: chartId}} = chartInfo
     const {id: userId} = chartInfo
@@ -118,94 +120,126 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
 
   return (
     <ScrollView>
+      {/* provjera za doktora ide tuuuuuu , da si ne moze sam unositi */}
            {_.get(user, 'title') !== 'patient' && <Button onPress={showModal}>
-             Novi Unos
+             Add new
            </Button>}
 
         <Modal
           animationType="slide"
           transparent={true}
           visible={visible}
+          style={styles.modal}
          >
-        <ScrollView >
+          <View style={styles.firstView}
+          >
+          <ScrollView >
           <View style={styles.modalView}>
-          <Text>Dodaj novu dijagnozu na karton</Text>
-          <Text>Info</Text>
+          <Text style={styles.header}>Add new chart info</Text>
+          <View style={styles.parts}>
+          <Text style={styles.centerText}>Info</Text>
             <TextInput
               style={styles.textInputStyle}
               value={newInfo}
               numberOfLines={4}
               onChangeText={text => setInfo(text)}
-            />
-            <Text>Temperatura</Text>
+              />
+          </View>
+          <View style={styles.parts}>
+
+            <Text style={styles.centerText}>Temperature</Text>
             <TextInput
               style={styles.textInputStyle}
               value={temperature}
               onChangeText={text => setTemperature(text)}
-            />
-            
-            <Text>Bolesti</Text>
+              />
+          </View>
+
+          <View style={styles.parts}>
+            <Text style={styles.centerText}>Disease</Text>
             <SectionedMultiSelect
               items={diseases}
               IconRenderer={MaterialIcons}
               uniqueKey="id"
               subKey="children"
-              selectText="Odaberi bolesti"
+              selectText="Choose diseases"
               showDropDowns={true}
               // readOnlyHeadings={true}
               onSelectedItemsChange={(e)=>handleSelectDisease(e)}
               selectedItems={selectedDisease}
             />
+          </View>
+          <View style={styles.parts}>
 
-            <Text>Ljekovi</Text>
+            <Text style={styles.centerText}>Medicaments</Text>
             <SectionedMultiSelect
               items={medicaments}
               IconRenderer={MaterialIcons}
               uniqueKey="id"
               subKey="children"
-              selectText="Odaberi ljekove"
+              selectText="Choose medicaments"
               showDropDowns={true}
               // readOnlyHeadings={true}
               onSelectedItemsChange={(e)=>handleSelectMedicaments(e)}
               selectedItems={selectedMedicaments}
-            />
+              />
+            </View>
           <View style={styles.twoButtons}>
-              <TouchableHighlight
+
+          <Button
+              onPress={handleStvoriNovi}
+              style={styles.button}
+              >
+              Save
+            </Button>
+             <Button
+              style={styles.button}
+              onPress={hideModal}
+            >
+              Exit
+            </Button>
+
+              {/* <TouchableHighlight
                 style={{ ...styles.openButton }}
                 onPress={handleStvoriNovi}
               >
-                <Text style={styles.textStyle}>Spremi</Text>
+                <Text style={styles.textStyle}>Save</Text>
               </TouchableHighlight>
 
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                 onPress={hideModal}
               >
-                <Text style={styles.textStyle}>Odustani</Text>
-              </TouchableHighlight>
-            </View> 
+                <Text style={styles.textStyle}>Exit</Text>
+              </TouchableHighlight> */}
+            </View>
           </View>
         </ScrollView>
+          </View>
       </Modal>
 
 
       {!visible && <Card>
-        <Card.Content>
-          <Title>Trenutna Diagnoza:</Title>
-          <Paragraph>Trenutne Bolesti</Paragraph>
-            {!_.isEmpty(lastDisease) 
-            ? _.map(lastDiseasesMap, (d,i) => <Paragraph key={i}>- {d}</Paragraph>)
-            : <Paragraph>Nema utvrdenih Bolesti</Paragraph>}
-          <Paragraph>Trenutni Ljekovi</Paragraph>
-            {!_.isEmpty(lastMedicament) 
-            ? _.map(lastMedicamentsMap, (d, i) => <Paragraph key={i}>- {d}</Paragraph>)
-            : <Paragraph>Nema pripisanih ljekova</Paragraph>}
+        <Card.Content style={styles.card}>
+          <Title>Current Diagnosis:</Title>
+          <View style={styles.centerView}>
+            <Paragraph style={styles.paragraphTitles}>Identified diseases</Paragraph>
+              {!_.isEmpty(lastDisease)
+              ? _.map(lastDiseasesMap, (d,i) => <Paragraph style={styles.paragraph} key={i}>- {d}</Paragraph>)
+              : <Paragraph style={styles.paragraph}>There are no identified diseases</Paragraph>}
+          </View>
+          <View style={styles.centerView}>
+            <Paragraph style={styles.paragraphTitles}>Prescribed drugs</Paragraph>
+              {!_.isEmpty(lastMedicament)
+              ? _.map(lastMedicamentsMap, (d, i) => <Paragraph style={styles.paragraph} key={i}>- {d}</Paragraph>)
+              : <Paragraph style={styles.paragraph}>There are no prescribed drugs</Paragraph>}
+          </View>
         </Card.Content>
-        <Separator/>
+
 
         {!_.isEmpty(temperatureArray) && !_.isEmpty(dateArray) && <View>
-          <Text>
-            Temperatura za period {_.last(dateArray)} - {_.first(dateArray)}
+          <Text style={styles.centerText}>
+            Temperature in between dates {_.last(dateArray)} - {_.first(dateArray)}
           </Text>
           <ScrollView
             horizontal={true}
@@ -241,29 +275,31 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
         <Separator/>
         {/* ovde ide graf temperaturaaaaa */}
         {_.map(_.reverse(info), i =>
-          <View>
-          <Card.Content>
-            <Title>{_.get(_.filter(users, v => i.creator === v.id), '[0].fullName')}</Title>
-            <Paragraph>{moment(i.created_at).format('YYYY-MM-DD')}</Paragraph>
-            
-            <Title>Info</Title>
-            <Paragraph>{i.info}</Paragraph>
+          <View style={styles.card}>
+            <Card.Content >
+              <View style={styles.infoHeader}>
+                <Title>{_.get(_.filter(users, v => i.creator === v.id), '[0].fullName')}</Title>
+                <Paragraph style={styles.dateStyle}>{moment(i.created_at).format('YYYY-MM-DD')}</Paragraph>
+              </View>
 
-            <Title>Temperatura</Title>
-            <Paragraph>{i.temperature}</Paragraph>
-  
-            <Title>Trenutne Bolesti</Title>
-              {!_.isEmpty(i.diseaseArray) 
-              ? _.map(i.diseaseArray, (d,i) => <Paragraph key={i}>- {_.get(_.filter(diseases, v => d === v.id), '[0].name')}</Paragraph>)
-              : <Paragraph>Nema pripisanih ljekova</Paragraph>}
+              <Title>Info</Title>
+              <Paragraph style={styles.paragraph}>{i.info}</Paragraph>
 
-            <Title>Pripisani Ljekovi</Title>
-              {!_.isEmpty(i.medicamentArray) 
-              ? _.map(i.medicamentArray, (d,i) => <Paragraph key={i}>- {_.get(_.filter(medicaments, v => d === v.id), '[0].name')}</Paragraph>)
-              : <Paragraph>Nema pripisanih ljekova</Paragraph>}
-            
-          </Card.Content>
-          <Separator/>
+              <Title>Temperature</Title>
+              <Paragraph style={styles.paragraph}>{i.temperature}</Paragraph>
+
+              <Title>Identified diseases</Title>
+                {!_.isEmpty(i.diseaseArray)
+                ? _.map(i.diseaseArray, (d,i) => <Paragraph style={styles.paragraph} key={i}>- {_.get(_.filter(diseases, v => d === v.id), '[0].name')}</Paragraph>)
+                : <Paragraph style={styles.paragraph}>There are no prescribed drugs</Paragraph>}
+
+              <Title>Prescribed drugs</Title>
+                {!_.isEmpty(i.medicamentArray)
+                ? _.map(i.medicamentArray, (d,i) => <Paragraph style={styles.paragraph} key={i}>- {_.get(_.filter(medicaments, v => d === v.id), '[0].name')}</Paragraph>)
+                : <Paragraph style={styles.paragraph}>There are no identified diseases</Paragraph>}
+
+            </Card.Content>
+          {/* <Separator/> */}
         </View>
         )}
       </Card>}
@@ -272,6 +308,57 @@ const Vizita = ({users, chartInfo, diseases, medicaments, getAll}) => {
 };
 
 const styles = StyleSheet.create({
+  header: {
+    fontSize: 20,
+    marginBottom: 40,
+  },
+  parts: {
+    marginBottom: 40,
+    // marginTop: 40
+  },
+  firstView: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'},
+  modal: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop:40,
+  },
+  dateStyle: {
+    marginLeft: 'auto',
+    paddingTop: 5,
+  },
+  infoHeader: {
+    flexDirection:"row",
+    borderBottomWidth: 0.5,
+    borderBottomColor: theme.colors.primary,
+    borderTopLeftRadius: 1,
+    borderStyle:'solid',
+  },
+  centerText: {
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  centerView: {
+    marginLeft:40,
+  },
+  card: {
+    marginBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: theme.colors.primary,
+    borderTopLeftRadius: 1,
+    borderStyle:'solid',
+    paddingBottom: 20,
+  },
+  paragraphTitles: {
+    marginTop: 20,
+  },
+  paragraph: {
+    paddingLeft:20,
+  },
   centeredView: {
     flex: 2,
     justifyContent: 'center',
@@ -279,25 +366,26 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   textInputStyle: {
-    width: 150,
-    height: 40,
+    width: 250,
+    height: 50,
     backgroundColor: 'lightgray',
     marginTop:30,
+    textAlign: 'center'
   },
   modalView: {
-    margin: 20,
+    marginTop: 50,
     backgroundColor: 'white',
-    borderRadius: 20,
+    // borderRadius: 20,
     padding: 35,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+    // elevation: 5,
   },
   textStyle: {
     color: 'white',
@@ -313,6 +401,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+  },
+  button: {
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    borderTopLeftRadius: 1,
+    borderStyle:'solid',
+    margin: 10,
   },
 })
 

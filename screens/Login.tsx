@@ -18,25 +18,29 @@ const LoginScreen = ({ navigation }) => {
   const [codeError, setCodeError] = useState(false)
   const [validEmail, setValidEmail] = useState(false)
   const [pass, setPass] = useState('')
+  const [buttonBlock, setButton] = useState(false)
 
   const {setUser} = useContext(AppContext);
 
   const onLoginPressed = async() => {
+    setButton(true)
     setError(false)
     const login = await loginUser(email.value)
     if(_.isEmpty(login)) {
       setError(true)
+      setButton(false)
       return
     }
-    
+
     setValidEmail(true)
+    setButton(false)
   }
 
   const onPassPressed = async() => {
     const resp = await sendCode(pass)
     if(_.isEmpty(resp)) {
       setCodeError(true)
-      return 
+      return
     }
 
     const user = _.get(resp, 'data')
@@ -77,36 +81,52 @@ const LoginScreen = ({ navigation }) => {
         autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
-        description='Login description'
+        description=''
         />
-        {error && <Text style={styles.link}>Dogodila se greska</Text>}
-        <Button onPress={onLoginPressed}>
+        {error && <Text style={styles.link}>Error happened while trying to Login</Text>}
+        <Button
+          onPress={onLoginPressed}
+          style={styles.button}
+          disabled={buttonBlock}
+        >
           Login
         </Button>
         </View>}
         {validEmail && <View>
-          <TextInput
-            label="Kod"
-            returnKeyType="next"
-            value={pass}
-            onChangeText={(text) => setPass(text)}
-            error={!!email.error}
-            errorText={email.error}
-            autoCapitalize="none"
-            autoCompleteType="email"
-            textContentType="emailAddress"
-            keyboardType="email-address"
-            description='Login description'
+          <View style={{justifyContent: 'center',alignItems: 'center'}}>
+            <TextInput
+              label="Code"
+              returnKeyType="next"
+              value={pass}
+              onChangeText={(text) => setPass(text)}
+              error={!!email.error}
+              errorText={email.error}
+              autoCapitalize="none"
+              autoCompleteType="email"
+              textContentType="emailAddress"
+              keyboardType="email-address"
+              description=''
+              // style={styles.codeText}
             />
+          </View>
 
-          {codeError && <Text style={styles.link}>Kod nije valjan</Text>}
-             <Button onPress={onPassPressed}>
-              Login
+          {codeError && <Text style={styles.link}>Code is not valid</Text>}
+          <View style={styles.buttons}>
+             <Button
+              onPress={onPassPressed}
+              style={styles.button}
+              >
+              Submit code
             </Button>
-             <Button onPress={newLogin}>
-              Ponovni Login
+             <Button
+              style={styles.button}
+              onPress={newLogin}
+            >
+              Go back to Login
             </Button>
-        </View>}
+          </View>
+        </View>
+        }
       {/* <TextInput
         label="Password"
         returnKeyType="done"
@@ -133,6 +153,19 @@ const LoginScreen = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+  codeText: {
+    textAlign: "center",
+  },
+  buttons: {
+    flexDirection: 'row',
+  },
+  button: {
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    borderTopLeftRadius: 1,
+    borderStyle:'solid',
+    margin: 10,
+  },
   forgotPassword: {
     width: '100%',
     alignItems: 'flex-end',

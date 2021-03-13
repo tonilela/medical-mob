@@ -9,3 +9,8 @@ The "assets.json" file describes the assets that have been optimized through "ex
 > Should I commit the ".expo-shared" folder?
 
 Yes, you should share the ".expo-shared" folder with your collaborators.
+
+
+je datoteka koja se kreira kada pokrećemo komande koje su uzrokuju promjene na cijelim projektu za sve ostale programere, npr "npx expo-optimize"
+
+Assets
