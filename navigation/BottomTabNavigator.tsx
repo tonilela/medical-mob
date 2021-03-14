@@ -31,7 +31,7 @@ export default function BottomTabNavigator() {
         name="Home"
         component={TabOneNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-home" color={color} />,
           tabBarVisible: _.isEmpty(user) ? false : true
         }}
       />
@@ -39,7 +39,7 @@ export default function BottomTabNavigator() {
         name="Log Out"
         component={LogOut}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="log-out" color={color} />,
         }}
       />}
     </BottomTab.Navigator>

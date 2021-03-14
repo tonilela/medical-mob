@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
 import { Alert, Modal, StyleSheet, Dimensions, TouchableHighlight, Button, TextInput, ActivityIndicator } from 'react-native';
 import _ from 'lodash'
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Vizita from '../components/Vizita';
@@ -9,6 +9,8 @@ import { Text, View } from '../components/Themed';
 import { getAllUserData, getAllStaticData } from "../helper/user";
 import Nalazi from '../components/Nalazi';
 import Review from '../components/Review';
+
+import { theme } from '../assets/theme'
 
 
 const initialLayout = { width: Dimensions.get('window').width };
@@ -105,6 +107,7 @@ export default function Profile(props) {
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
+      renderTabBar={props => <TabBar {...props} style={{backgroundColor: theme.colors.primary}}/>} // <-- add this line
       initialLayout={initialLayout}
     />
   );
